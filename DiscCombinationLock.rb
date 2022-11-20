@@ -25,7 +25,7 @@ def print_solution(stack)
   exit(0)
 end
 
-def is_exclude(node, new_code)
+def is_exclude?(node, new_code)
   return true if @excludes.include?(new_code)
 
   until node.nil?
@@ -45,8 +45,8 @@ def success(node)
   old_best_length = 0
   old_best_length = @best.length unless @best.nil?
   @best = stack if @best.nil? || @best.length > stack.length
-  puts "[#{Time.new.strftime('%H:%M:%S')}] Код найден с путем #{@best.length}" if @best.length < old_best_length
-  #print_solution(@best)
+  puts "[#{Time.new.strftime('%H:%M:%S')}] Код найден с путем #{@best.length} #{stack.reverse}" if @best.length < old_best_length
+
 end
 
 def search(node, key)
@@ -64,10 +64,10 @@ def search(node, key)
     num = (node.code / div) % 10
     if key > node.code
       @new_code = node.code + div
-      node.children.append(Node.new(@new_code, node)) if num != 9 && !is_exclude(node, @new_code)
+      node.children.append(Node.new(@new_code, node)) if num != 9 && !is_exclude?(node, @new_code)
     else
       @new_code = node.code - div
-      node.children.append(Node.new(@new_code, node)) if num != 0 && !is_exclude(node, @new_code)
+      node.children.append(Node.new(@new_code, node)) if num != 0 && !is_exclude?(node, @new_code)
     end
     div /= 10
   end
@@ -81,16 +81,16 @@ def search(node, key)
 end
 
 puts 'Введите начальное значение'
-# start_code = gets.to_i
-start_code = 1111
+#start_code = gets.to_i
+start_code = 123
 
 puts 'Введите ключ (конечное значение)'
-# key = gets.to_i
-key = 7899
+#key = gets.to_i
+key = 789
 
 puts 'Введите исключения'
-# excludes = gets.to_i # todo: fix it. i need more excludes
-@excludes = [6666]
+#@excludes = gets.to_i # todo: fix it. i need more excludes
+@excludes = [555]
 @best = nil
 
 root = Node.new(start_code, nil)
